@@ -5,11 +5,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static java.util.Collections.emptyList;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Stream.iterate;
 
 public class AStar {
     public <T> Iterable<T> findPath(T start, Function<T, Float> estCost, Function<T, Map<T, Float>> getNeighbors, Predicate<T> isGoal) {
-        PriorityQueue<Node<T>> open = new PriorityQueue<>((o1, o2) -> (int) (o1.getCost() - o2.getCost()));
+        Queue<Node<T>> open = new PriorityQueue<>(comparing(Node::getCost));
         open.add(new Node<>(start, null, 0));
 
         Set<T> closed = new HashSet<>();
@@ -25,7 +26,7 @@ public class AStar {
 
             for (Map.Entry<T, Float> n : getNeighbors.apply(e.getValue()).entrySet()) {
                 if (closed.contains(n.getKey())) continue;
-                open.add(new Node<>(n.getKey(), e, e.cost + n.getValue() + estCost.apply(n.getKey())));
+                open.add(new Node<>(n.getKey(), e, e.getCost() + n.getValue() + estCost.apply(n.getKey())));
             }
 
             closed.add(e.getValue());
@@ -33,10 +34,10 @@ public class AStar {
         return emptyList();
     }
 
-    static class Node<T> {
-        T value;
-        Node<T> parent;
-        float cost;
+    private class Node<T> {
+        private T value;
+        private Node<T> parent;
+        private float cost;
 
         Node(T value, Node<T> parent, float cost) {
             this.value = value;
