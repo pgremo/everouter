@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ClasspathURLStreamHandlerTest {
     @Test
     public void shouldLoadProperties() throws IOException {
-        URL url = new URL("classpath:/pgremo/classpath/test.properties");
+        URL url = new URL("classpath:/pgremo/test.properties");
         Properties properties = new Properties();
         properties.load(url.openStream());
         assertThat(properties.get("key")).isEqualTo("value");
