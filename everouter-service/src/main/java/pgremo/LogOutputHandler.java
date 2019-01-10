@@ -1,29 +1,20 @@
 package pgremo;
 
 import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.beans.PropertyEditor;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.*;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
-import static java.beans.Introspector.getBeanInfo;
-import static java.beans.PropertyEditorManager.findEditor;
-import static java.beans.PropertyEditorManager.registerEditor;
 import static java.util.logging.ErrorManager.*;
 import static java.util.logging.Level.INFO;
 import static java.util.logging.LogManager.getLogManager;
+import static pgremo.BeanConfigurator.configure;
 
 public class LogOutputHandler extends Handler {
-
-    static {
-        registerEditor(Level.class, LevelPropertyEditor.class);
-        registerEditor(Filter.class, ObjectInstancePropertyEditor.class);
-        registerEditor(Formatter.class, ObjectInstancePropertyEditor.class);
-    }
 
     private Writer out = new OutputStreamWriter(System.out);
     private Writer err = new OutputStreamWriter(System.err);
@@ -31,19 +22,7 @@ public class LogOutputHandler extends Handler {
 
     public LogOutputHandler() throws InvocationTargetException, IllegalAccessException, IntrospectionException {
         super();
-        configure(this);
-    }
-
-    private void configure(Object target) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
-        Class<?> type = target.getClass();
-        for (PropertyDescriptor descriptor : getBeanInfo(type).getPropertyDescriptors()) {
-            String value = getLogManager().getProperty(type.getName() + "." + descriptor.getName());
-            if (value != null) {
-                PropertyEditor editor = findEditor(descriptor.getPropertyType());
-                editor.setAsText(value);
-                descriptor.getWriteMethod().invoke(target, editor.getValue());
-            }
-        }
+        configure(this, x -> getLogManager().getProperty(getClass().getName() + "." + x.getName()));
     }
 
     @Override

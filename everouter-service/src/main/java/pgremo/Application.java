@@ -1,19 +1,20 @@
 package pgremo;
 
-import javax.enterprise.inject.se.SeContainer;
+import org.glassfish.jersey.server.ResourceConfig;
 
 import static java.lang.System.setProperty;
-import static javax.enterprise.inject.se.SeContainerInitializer.newInstance;
+import static javax.ws.rs.core.UriBuilder.fromUri;
+import static org.glassfish.jersey.jdkhttp.JdkHttpServerFactory.createHttpServer;
 
 public class Application {
     static {
         setProperty("java.util.logging.config.class", LoggingConfigurator.class.getName());
-        setProperty("org.jboss.logging.provider", "slf4j");
     }
 
     public static void main(String... args) {
-        try (SeContainer container = newInstance().initialize()) {
-            container.select(Runner.class).get().run(args);
-        }
+        createHttpServer(
+                fromUri("http://localhost/").port(8080).build(),
+                new ResourceConfig(MyResource.class)
+        );
     }
 }

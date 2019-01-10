@@ -3,7 +3,10 @@ package pgremo;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Default;
-import javax.enterprise.inject.spi.*;
+import javax.enterprise.inject.spi.AfterBeanDiscovery;
+import javax.enterprise.inject.spi.Extension;
+import javax.enterprise.inject.spi.ProcessAnnotatedType;
+import javax.enterprise.inject.spi.WithAnnotations;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
@@ -16,7 +19,7 @@ public class CDIExtension implements Extension {
     private Set<String> profiles;
     private Environment environment;
 
-    public void configureEnvironment(@Observes BeforeBeanDiscovery event) throws IOException {
+    public CDIExtension() throws IOException {
         environment = new ChainingEnvironment(
                 new SystemEnvEnvironment(),
                 new SystemPropertiesEnvironment(),
