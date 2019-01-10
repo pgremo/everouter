@@ -14,7 +14,7 @@ public class Application {
     public static void main(String... args) {
         createHttpServer(
                 fromUri("http://localhost/").port(8080).build(),
-                new ResourceConfig(MyResource.class)
+                new ResourceConfig().packages("pgremo")
         );
     }
 }
