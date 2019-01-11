@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.environment;
 
 public class Strings {
     public static String uncapitalize(String value) {

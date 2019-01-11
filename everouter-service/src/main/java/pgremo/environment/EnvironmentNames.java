@@ -19,8 +19,8 @@ import static java.util.Collections.emptySet;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
-import static pgremo.Strings.capitalize;
-import static pgremo.Strings.uncapitalize;
+import static pgremo.environment.Strings.capitalize;
+import static pgremo.environment.Strings.uncapitalize;
 
 public class EnvironmentNames implements Iterable<String> {
 
