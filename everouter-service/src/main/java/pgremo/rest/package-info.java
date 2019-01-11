@@ -1,5 +1,5 @@
 @XmlAccessorType(FIELD)
-package pgremo;
+package pgremo.rest;
 
 import javax.xml.bind.annotation.XmlAccessorType;
 

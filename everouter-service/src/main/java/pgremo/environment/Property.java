@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.environment;
 
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
@@ -12,7 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD, METHOD, PARAMETER})
 @Retention(RUNTIME)
 public @interface Property {
-    String NULL = "pgremo.Property:NULL";
+    String NULL = "pgremo.environment.Property:NULL";
 
     @Nonbinding String value() default "";
 

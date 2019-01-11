@@ -1,6 +1,7 @@
-package pgremo;
+package pgremo.pathfinding;
 
 import org.junit.jupiter.api.Test;
+import pgremo.pathfinding.AStar;
 
 import java.util.HashMap;
 import java.util.Map;

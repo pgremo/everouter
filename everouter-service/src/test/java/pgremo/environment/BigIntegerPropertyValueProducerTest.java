@@ -1,7 +1,8 @@
-package pgremo;
+package pgremo.environment;
 
 import org.jboss.weld.junit5.auto.*;
 import org.junit.jupiter.api.Test;
+import pgremo.Application;
 
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @EnableAutoWeld
 @AddPackages(Application.class)
 @AddBeanClasses(TestEnvironment.class)
-@AddExtensions(CDIExtension.class)
+@AddExtensions(EnvironmentExtension.class)
 @EnableAlternatives(TestEnvironment.class)
 class BigIntegerPropertyValueProducerTest {
 
@@ -33,7 +34,7 @@ class BigIntegerPropertyValueProducerTest {
     BigInteger nullValue;
 
     @Test
-    public void shouldSetNull(){
+    public void shouldSetNull() {
         assertThat(nullValue).isNull();
     }
 }

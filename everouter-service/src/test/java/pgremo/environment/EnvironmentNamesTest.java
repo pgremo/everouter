@@ -1,8 +1,9 @@
-package pgremo;
+package pgremo.environment;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import pgremo.environment.EnvironmentNames;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,1 +1,2 @@
-pgremo.CDIExtension
+pgremo.environment.EnvironmentExtension
+pgremo.profile.ProfileExtension

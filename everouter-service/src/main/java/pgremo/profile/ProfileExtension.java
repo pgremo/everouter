@@ -1,42 +1,25 @@
-package pgremo;
+package pgremo.profile;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Default;
-import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.inject.spi.WithAnnotations;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
+import static pgremo.environment.EnvironmentHolder.getEnvironment;
 
-public class CDIExtension implements Extension {
+public class ProfileExtension implements Extension {
     private Set<String> profiles;
-    private Environment environment;
 
-    public CDIExtension() throws IOException {
-        environment = new ChainingEnvironment(
-                new SystemEnvEnvironment(),
-                new SystemPropertiesEnvironment(),
-                new PropertyFileEnvironment(new URL("classpath:/application.properties"), false)
-        );
-        profiles = environment.get("everouter.profiles")
+    public ProfileExtension() throws IOException {
+        profiles = getEnvironment().get("everouter.profiles")
                 .map(x -> x.split("\\s*,\\s*"))
                 .map(x -> Stream.of(x).collect(toSet()))
                 .orElse(emptySet());
-    }
-
-    public void addEnvironment(@Observes AfterBeanDiscovery event) {
-        event.addBean()
-                .types(Environment.class)
-                .scope(ApplicationScoped.class)
-                .addQualifier(Default.Literal.INSTANCE)
-                .produceWith(x -> environment);
     }
 
     public void checkProfiles(@Observes @WithAnnotations(Profile.class) ProcessAnnotatedType<?> event) {

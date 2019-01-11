@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.net;
 
 import org.junit.jupiter.api.Test;
 

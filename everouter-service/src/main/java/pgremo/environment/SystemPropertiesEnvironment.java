@@ -1,16 +1,15 @@
-package pgremo;
-
+package pgremo.environment;
 
 import javax.enterprise.inject.Alternative;
 import java.util.Optional;
 
-import static java.lang.System.getenv;
+import static java.lang.System.getProperty;
 import static java.util.Optional.ofNullable;
 
 @Alternative
-public class SystemEnvEnvironment implements Environment {
+public class SystemPropertiesEnvironment implements Environment {
     @Override
     public Optional<String> get(String key) {
-        return ofNullable(getenv(key));
+        return ofNullable(getProperty(key));
     }
 }

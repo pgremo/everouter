@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.pathfinding;
 
 import java.util.*;
 import java.util.function.Function;

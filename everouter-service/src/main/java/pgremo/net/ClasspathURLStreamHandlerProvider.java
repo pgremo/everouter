@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.net;
 
 import java.net.URLStreamHandler;
 import java.net.spi.URLStreamHandlerProvider;

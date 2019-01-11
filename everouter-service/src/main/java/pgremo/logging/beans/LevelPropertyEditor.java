@@ -1,4 +1,4 @@
-package pgremo.logging.text;
+package pgremo.logging.beans;
 
 import java.beans.PropertyEditorSupport;
 import java.util.Map;

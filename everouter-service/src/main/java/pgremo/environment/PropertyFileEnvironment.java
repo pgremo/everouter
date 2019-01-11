@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.environment;
 
 
 import javax.enterprise.inject.Alternative;

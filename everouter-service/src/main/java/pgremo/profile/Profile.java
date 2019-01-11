@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.profile;
 
 import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.Retention;

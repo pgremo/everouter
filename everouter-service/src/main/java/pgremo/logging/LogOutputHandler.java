@@ -1,20 +1,29 @@
 package pgremo.logging;
 
+import pgremo.logging.beans.LevelPropertyEditor;
+import pgremo.logging.beans.ObjectInstancePropertyEditor;
+
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
+import java.util.logging.*;
 
+import static java.beans.PropertyEditorManager.registerEditor;
 import static java.util.logging.ErrorManager.*;
 import static java.util.logging.Level.INFO;
 import static java.util.logging.LogManager.getLogManager;
-import static pgremo.BeanConfigurator.configure;
+import static pgremo.beans.BeanConfigurator.configure;
 
 public class LogOutputHandler extends Handler {
+
+    static {
+        registerEditor(Level.class, LevelPropertyEditor.class);
+        registerEditor(Filter.class, ObjectInstancePropertyEditor.class);
+        registerEditor(Formatter.class, ObjectInstancePropertyEditor.class);
+    }
 
     private Writer out = new OutputStreamWriter(System.out);
     private Writer err = new OutputStreamWriter(System.err);

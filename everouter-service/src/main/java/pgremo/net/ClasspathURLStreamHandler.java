@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.net;
 
 import java.io.IOException;
 import java.net.URL;
