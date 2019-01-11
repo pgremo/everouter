@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.logging;
 
 import java.io.IOException;
 import java.io.InputStream;

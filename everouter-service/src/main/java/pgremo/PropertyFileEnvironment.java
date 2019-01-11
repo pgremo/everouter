@@ -1,6 +1,7 @@
 package pgremo;
 
 
+import javax.enterprise.inject.Alternative;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -9,6 +10,7 @@ import java.util.Properties;
 
 import static java.util.Optional.ofNullable;
 
+@Alternative
 public class PropertyFileEnvironment implements Environment {
     private final Properties properties;
 

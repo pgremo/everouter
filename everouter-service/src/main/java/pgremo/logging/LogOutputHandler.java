@@ -1,4 +1,4 @@
-package pgremo;
+package pgremo.logging;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;

@@ -1,5 +1,8 @@
 package pgremo;
 
+import pgremo.logging.text.LevelPropertyEditor;
+import pgremo.logging.text.ObjectInstancePropertyEditor;
+
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;

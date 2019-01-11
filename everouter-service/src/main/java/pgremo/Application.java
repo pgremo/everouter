@@ -1,6 +1,7 @@
 package pgremo;
 
 import org.glassfish.jersey.server.ResourceConfig;
+import pgremo.logging.LoggingConfigurator;
 
 import static java.lang.System.setProperty;
 import static javax.ws.rs.core.UriBuilder.fromUri;
