@@ -2,7 +2,6 @@ package pgremo;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.InjectionException;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
@@ -14,11 +13,9 @@ import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 import static java.beans.PropertyEditorManager.findEditor;
 import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
-import static java.util.function.Predicate.not;
 
 @ApplicationScoped
 public class PropertyValueProducer {
@@ -75,88 +72,52 @@ public class PropertyValueProducer {
     @Produces
     @Dependent
     @Property
-    public BigInteger produceBigIntegerProperty(InjectionPoint injectionPoint) {
-        Optional<Property> annotation = getAnnotation(injectionPoint);
-        return getProperty(annotation)
-                .map(x -> {
-                    try {
-                        DecimalFormat format = annotation
-                                .map(Property::pattern)
-                                .filter(not(String::isEmpty))
-                                .map(DecimalFormat::new)
-                                .orElseGet(DecimalFormat::new);
-                        format.setParseBigDecimal(true);
-                        return (BigDecimal) format.parseObject(x);
-                    } catch (ParseException e) {
-                        throw new InjectionException(e);
-                    }
-                })
-                .map(BigDecimal::toBigInteger)
-                .orElse(null);
+    public BigInteger produceBigIntegerProperty(InjectionPoint injectionPoint) throws ParseException {
+        Property annotation = injectionPoint.getAnnotated().getAnnotation(Property.class);
+        String value = getProperty(annotation);
+        if (value == null) return null;
+        String pattern = annotation.pattern();
+        DecimalFormat format = pattern.isEmpty() ? new DecimalFormat() : new DecimalFormat(pattern);
+        format.setParseBigDecimal(true);
+        return ((BigDecimal) format.parseObject(value)).toBigInteger();
     }
 
     @Produces
     @Dependent
     @Property
-    public BigDecimal produceBigDecimalProperty(InjectionPoint injectionPoint) {
-        Optional<Property> annotation = getAnnotation(injectionPoint);
-        return getProperty(annotation)
-                .map(x -> {
-                    try {
-                        DecimalFormat format = annotation
-                                .map(Property::pattern)
-                                .filter(not(String::isEmpty))
-                                .map(DecimalFormat::new)
-                                .orElseGet(DecimalFormat::new);
-                        format.setParseBigDecimal(true);
-                        return (BigDecimal) format.parseObject(x);
-                    } catch (ParseException e) {
-                        throw new InjectionException(e);
-                    }
-                })
-                .orElse(null);
+    public BigDecimal produceBigDecimalProperty(InjectionPoint injectionPoint) throws ParseException {
+        Property annotation = injectionPoint.getAnnotated().getAnnotation(Property.class);
+        String value = getProperty(annotation);
+        if (value == null) return null;
+        String pattern = annotation.pattern();
+        DecimalFormat format = pattern.isEmpty() ? new DecimalFormat() : new DecimalFormat(pattern);
+        format.setParseBigDecimal(true);
+        return (BigDecimal) format.parseObject(value);
     }
 
     @Produces
     @Dependent
     @Property
-    public Date produceDateProperty(InjectionPoint injectionPoint) {
-        Optional<Property> annotation = getAnnotation(injectionPoint);
-        return getProperty(annotation)
-                .map(x -> {
-                    try {
-                        return (Date) annotation
-                                .map(Property::pattern)
-                                .filter(not(String::isEmpty))
-                                .map(SimpleDateFormat::new)
-                                .map(Format.class::cast)
-                                .orElseGet(ISO_DATE_TIME::toFormat)
-                                .parseObject(x);
-                    } catch (ParseException e) {
-                        throw new InjectionException(e);
-                    }
-                })
-                .orElse(null);
+    public Date produceDateProperty(InjectionPoint injectionPoint) throws ParseException {
+        Property annotation = injectionPoint.getAnnotated().getAnnotation(Property.class);
+        String value = getProperty(annotation);
+        if (value == null) return null;
+        String pattern = annotation.pattern();
+        Format format = pattern.isEmpty() ? ISO_DATE_TIME.toFormat() : new SimpleDateFormat(pattern);
+        return (Date) format.parseObject(value);
     }
 
     private <T> T getValue(InjectionPoint injectionPoint) {
-        Optional<Property> annotation = getAnnotation(injectionPoint);
-        return getProperty(annotation)
-                .map(x -> {
-                    PropertyEditor editor = findEditor((Class<T>) injectionPoint.getType());
-                    editor.setAsText(x);
-                    return (T) editor.getValue();
-                })
-                .orElse(null);
+        Property annotation = injectionPoint.getAnnotated().getAnnotation(Property.class);
+        String value = getProperty(annotation);
+        if (value == null) return null;
+        PropertyEditor editor = findEditor((Class<T>) injectionPoint.getType());
+        editor.setAsText(value);
+        return (T) editor.getValue();
     }
 
-    private Optional<String> getProperty(Optional<Property> annotation) {
-        return annotation
-                .map(x -> environment.get(x.value())
-                        .orElseGet(() -> Property.NULL.equals(x.defaultValue()) ? null : x.defaultValue()));
-    }
-
-    private Optional<Property> getAnnotation(InjectionPoint point) {
-        return Optional.ofNullable(point.getAnnotated().getAnnotation(Property.class));
+    private String getProperty(Property annotation) {
+        return environment.get(annotation.value())
+                .orElseGet(() -> Property.NULL.equals(annotation.defaultValue()) ? null : annotation.defaultValue());
     }
 }
