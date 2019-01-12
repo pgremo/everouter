@@ -6,12 +6,12 @@ import javax.ws.rs.Produces;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path("myresource")
-public class MyResource {
+@Path("route")
+public class Route {
 
     @GET
     @Produces(APPLICATION_JSON)
-    public MyResourceResponse getIt() {
-        return new MyResourceResponse();
+    public RouteResponse getIt() {
+        return new RouteResponse();
     }
 }

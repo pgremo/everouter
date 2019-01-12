@@ -1,9 +1,9 @@
 package pgremo.environment;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import pgremo.environment.EnvironmentNames;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -86,6 +86,6 @@ class EnvironmentNamesTest {
     @ParameterizedTest(name = "{index} {0}")
     @EnumSource(Case.class)
     public void should(Case data) {
-        assertThat(new EnvironmentNames(data.given)).containsExactly(data.expected);
+        Assertions.assertThat(new EnvironmentNames(data.given)).containsExactly(data.expected);
     }
 }

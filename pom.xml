@@ -12,6 +12,7 @@
 
     <modules>
         <module>everouter-service</module>
+        <module>everouter-common</module>
     </modules>
 
     <properties>

@@ -12,7 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD, METHOD, PARAMETER})
 @Retention(RUNTIME)
 public @interface Property {
-    String NULL = "pgremo.environment.Property:NULL";
+    String NULL = "Property:NULL";
 
     @Nonbinding String value() default "";
 

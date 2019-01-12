@@ -4,7 +4,6 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.inject.spi.WithAnnotations;
-import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -15,7 +14,7 @@ import static pgremo.environment.EnvironmentHolder.getEnvironment;
 public class ProfileExtension implements Extension {
     private Set<String> profiles;
 
-    public ProfileExtension() throws IOException {
+    public ProfileExtension() {
         profiles = getEnvironment().get("everouter.profiles")
                 .map(x -> x.split("\\s*,\\s*"))
                 .map(x -> Stream.of(x).collect(toSet()))

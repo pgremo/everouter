@@ -1,5 +1,5 @@
 package pgremo.rest;
 
-public class MyResourceResponse {
+public class RouteResponse {
     private String message = "Got it!";
 }

@@ -2,7 +2,6 @@ package pgremo.environment;
 
 import org.jboss.weld.junit5.auto.*;
 import org.junit.jupiter.api.Test;
-import pgremo.Application;
 
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
@@ -14,7 +13,7 @@ import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @EnableAutoWeld
-@AddPackages(Application.class)
+@AddPackages(Environment.class)
 @AddBeanClasses(TestEnvironment.class)
 @AddExtensions(EnvironmentExtension.class)
 @EnableAlternatives(TestEnvironment.class)
